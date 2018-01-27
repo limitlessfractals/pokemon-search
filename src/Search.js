@@ -10,13 +10,20 @@ import axios from 'axios';
 class Search extends React.Component{
    state = {
       pokeSearch: "",
-      onCall: true
+      onCall: true,
+      data: {}
    }
    searchPoke = () =>{
       this.setState({onCall: true})
-
+      // allow function without access to this to access
+      var self = this;
       axios.get("http://pokeapi.co/api/v2/pokemon/"+ this.state.pokeSearch.toLowerCase()).then(function(response){
          console.log(response.data);
+         self.setState({data: response.data});
+         self.setState({onCall: false});
+      })
+      .catch(function(error){
+         console.log(error);
       })
    }
    renderBody = () =>{
@@ -27,7 +34,7 @@ class Search extends React.Component{
       }
       else{
          return(
-            <SearchBody />
+            <SearchBody data={this.state.data}/>
          )
       }
    }

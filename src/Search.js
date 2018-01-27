@@ -1,8 +1,11 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import {Header, Item, Icon, Input, Button} from 'native-base';
+// yarn add native-base
 import PokeLoader from './PokeLoader';
 import SearchBody from './SearchBody';
+import axios from 'axios';
+// yarn add axios
 
 class Search extends React.Component{
    state = {
@@ -10,7 +13,11 @@ class Search extends React.Component{
       onCall: true
    }
    searchPoke = () =>{
+      this.setState({onCall: true})
 
+      axios.get("http://pokeapi.co/api/v2/pokemon/"+ this.state.pokeSearch.toLowerCase()).then(function(response){
+         console.log(response.data);
+      })
    }
    renderBody = () =>{
       if(this.state.onCall){
